@@ -1,3 +1,8 @@
+"""
+Este script é responsável por consolidar e organizar os dados de Unidades da Federação (UF),
+realizando a junção dos metadados com as bases de dados correspondentes.
+"""
+
 from src.config.path import RAW_PATH, RAW_DF_PATH
 from pathlib import Path
 import pandas as pd
