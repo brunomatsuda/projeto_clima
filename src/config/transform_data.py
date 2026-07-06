@@ -1,4 +1,4 @@
-from src.config.path import RAW_DF_PATH
+from src.config.path import RAW_DF_PATH, GOLD_PATH
 import pandas as pd
 
 pd.set_option('display.max_columns', None)
@@ -86,7 +86,49 @@ def termal_amplitude_column(df:pd.DataFrame) -> pd.DataFrame:
 
     return df
 
-def data_pipeline(df):
+
+def order_columns(df:pd.DataFrame) -> pd.DataFrame:
+    colunas_ordenadas = [
+    # Identificação
+    "regiao", "uf","estacao",
+    
+    # Localização
+    "latitude", "longitude", "altitude",
+
+    # Tempo
+    "timestamp_utc", "data_br", "hora_utc", "mes",
+
+    # Temperatura
+    "temperatura_seco_c", "temperatura_max_c", "temperatura_min_c", "month_max_t", "month_min_t", "month_amplitude_t",
+
+    # Ponto de orvalho
+    "temperatura_orvalho_c", "temperatura_orvalho_max_c", "temperatura_orvalho_min_c",
+
+    # Umidade
+    "umidade_porcento", "umidade_max_porcento", "umidade_min_porcento",
+
+    # Pressão
+    "pressao_estacao_mb", "pressao_max_mb", "pressao_min_mb",
+
+    # Precipitação e radiação
+    "precipitacao_total_mm", "radiacao_global_kj_m2",
+
+    # Vento
+    "vento_direcao_graus", "vento_velocidade_ms", "vento_rajada_ms",
+    ]
+
+    df = df[colunas_ordenadas]
+    return df
+
+
+def export_df(df:pd.DataFrame, archive_name:str) -> None:
+    df.to_csv(
+        GOLD_PATH /f"{archive_name}.csv",
+        index=False
+    )
+
+
+def data_pipeline(df: pd.DataFrame, archive_name: str) -> pd.DataFrame:
     return(df
         .pipe(normalize_column)
         .pipe(normalize_values)
@@ -94,6 +136,8 @@ def data_pipeline(df):
         .pipe(alter_schema_columns)
         .pipe(drop_columns)
         .pipe(termal_amplitude_column)
+        .pipe(order_columns)
+        .pipe(export_df, archive_name)
     )
 
 
@@ -101,5 +145,4 @@ def data_pipeline(df):
 if __name__ == "__main__":
     for arquivo in RAW_DF_PATH.glob("*parquet"):
         df = pd.read_parquet(arquivo)
-        teste = data_pipeline(df)
-    print(teste.head(1))
+        data_pipeline(df, archive_name=arquivo.stem)
