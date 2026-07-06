@@ -66,12 +66,18 @@ def alter_schema_columns(df:pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def drop_columns(df:pd.DataFrame) -> pd.DataFrame:
+    df = df.drop(columns=["codigo_(wmo)", "data_de_fundacao", "data"])
+    return df
+
+
 def data_pipeline(df):
     return(df
         .pipe(normalize_column)
         .pipe(normalize_values)
         .pipe(rename_columns)
         .pipe(alter_schema_columns)
+        .pipe(drop_columns)
     )
 
 
