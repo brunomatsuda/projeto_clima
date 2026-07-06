@@ -71,6 +71,21 @@ def drop_columns(df:pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def termal_amplitude_column(df:pd.DataFrame) -> pd.DataFrame:
+    df["month_max_t"] = (
+        df.groupby("mes")["temperatura_max_c"].transform("max")
+    )
+
+    df["month_min_t"] = (
+        df.groupby("mes")["temperatura_min_c"].transform("min")
+    )
+
+    df["month_amplitude_t"] = (
+        df.groupby("mes")["temperatura_max_c"].transform("max") - df.groupby("mes")["temperatura_min_c"].transform("min")
+    )
+
+    return df
+
 def data_pipeline(df):
     return(df
         .pipe(normalize_column)
@@ -78,6 +93,7 @@ def data_pipeline(df):
         .pipe(rename_columns)
         .pipe(alter_schema_columns)
         .pipe(drop_columns)
+        .pipe(termal_amplitude_column)
     )
 
 
@@ -86,4 +102,4 @@ if __name__ == "__main__":
     for arquivo in RAW_DF_PATH.glob("*parquet"):
         df = pd.read_parquet(arquivo)
         teste = data_pipeline(df)
-    print(teste.info())
+    print(teste.head(1))
