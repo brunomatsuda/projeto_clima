@@ -63,4 +63,4 @@ def create_base(uf:str): # Cria um diretório com a uf passada
 
 
 if __name__ == "__main__":
-    create_base("_ms_")
+    create_base("_ms_") #Passar a UF desejada

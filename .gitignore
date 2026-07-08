@@ -1,12 +1,12 @@
 # DRAWIO
 *.drawio
 
-# Ignorar os arquivos das pastas de dados processados
+# TXT
+*.txt
 
-# Ignora todo o conteúdo de gold
+# Ignora todo o conteúdo de gold mas mantém a pasta
 data/gold/*
 !data/gold/.gitkeep
 
-# Ignora todo o conteúdo de raw_df
-data/raw_df/*
-!data/raw_df/.gitkeep
+#Ignorar pastas que serão criadas no modelo raw_uf_
+data/raw_*_/
