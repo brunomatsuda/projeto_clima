@@ -1,0 +1,12 @@
+# DRAWIO
+*.drawio
+
+# Ignorar os arquivos das pastas de dados processados
+
+# Ignora todo o conteúdo de gold
+data/gold/*
+!data/gold/.gitkeep
+
+# Ignora todo o conteúdo de raw_df
+data/raw_df/*
+!data/raw_df/.gitkeep
