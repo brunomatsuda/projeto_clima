@@ -3,53 +3,64 @@ Este script é responsável por consolidar e organizar os dados de Unidades da F
 realizando a junção dos metadados com as bases de dados correspondentes.
 """
 
-from src.config.path import RAW_PATH, RAW_DF_PATH
+from src.config.path import RAW_PATH, RAW_DF_PATH, RAW_UF_PATH
 from pathlib import Path
 import pandas as pd
 
-#Rodar no CMD: python3 -m src.config.catalogo_uf.py
 
-arquivos = list(Path(RAW_PATH).glob("*.CSV"))
 
-for arquivo in arquivos:
-    if '_df_' in arquivo.name.lower():
-        try: #try para pegar os metadados
-            df_meta_dados = pd.read_csv(
-                arquivo,
-                encoding="ISO-8859-1",
-                sep=";",
-                nrows=8,
-                header=None,
-                usecols=[0,1]
-            )
+def create_base(uf:str): # Cria um diretório com a uf passada
+    global RAW_UF_PATH
 
-            metadados = {}
-            for _, linha in df_meta_dados.iterrows():
-                chave = str(linha[0]).replace(":", "").strip()
-                valor = str(linha[1]).strip()
-                metadados[chave] = valor
-            
-            # pega o restante dos dados
-            df_dados = pd.read_csv(
-                arquivo,
-                encoding="ISO-8859-1",
-                sep=";",
-                skiprows=8,
-                header=0,
-                decimal=","
-            )
+    arquivos = list(Path(RAW_PATH).glob("*.CSV"))
+    RAW_UF_PATH = RAW_UF_PATH/f"raw{uf}"
+    paste = RAW_UF_PATH
+    paste.mkdir(parents=True, exist_ok=True)
 
-            df_dados = df_dados.dropna(how='all', axis=1)
+    for arquivo in arquivos:
+        if uf in arquivo.name.lower():
+            try: #try para pegar os metadados
+                df_meta_dados = pd.read_csv(
+                    arquivo,
+                    encoding="ISO-8859-1",
+                    sep=";",
+                    nrows=8,
+                    header=None,
+                    usecols=[0,1]
+                )
 
-            # Inserindo metadados em df_dados
-            for chave, valor in metadados.items():
-                df_dados[chave] = valor
-            
-            colunas_metadados = list(metadados.keys())
-            colunas_dados = [col for col in df_dados.columns if col not in colunas_metadados]
-            df_dados = df_dados[colunas_metadados + colunas_dados]
+                metadados = {}
+                for _, linha in df_meta_dados.iterrows():
+                    chave = str(linha[0]).replace(":", "").strip()
+                    valor = str(linha[1]).strip()
+                    metadados[chave] = valor
+                
+                # pega o restante dos dados
+                df_dados = pd.read_csv(
+                    arquivo,
+                    encoding="ISO-8859-1",
+                    sep=";",
+                    skiprows=8,
+                    header=0,
+                    decimal=","
+                )
 
-            df_dados.to_parquet(RAW_DF_PATH/(arquivo.stem+".parquet"), engine="pyarrow", index=False)
+                df_dados = df_dados.dropna(how='all', axis=1)
 
-        except Exception as e:
-            print(f"Erro em {arquivo.name}: {e}")
+                # Inserindo metadados em df_dados
+                for chave, valor in metadados.items():
+                    df_dados[chave] = valor
+                
+                colunas_metadados = list(metadados.keys())
+                colunas_dados = [col for col in df_dados.columns if col not in colunas_metadados]
+                df_dados = df_dados[colunas_metadados + colunas_dados]
+                
+                df_dados.to_parquet(RAW_UF_PATH/(arquivo.stem+".parquet"), engine="pyarrow", index=False)
+
+            except Exception as e:
+                print(f"Erro em {arquivo.name}: {e}")
+
+
+
+if __name__ == "__main__":
+    create_base("_ms_")
