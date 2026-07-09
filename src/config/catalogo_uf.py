@@ -13,12 +13,17 @@ def create_base(uf:str): # Cria um diretório com a uf passada
     global RAW_UF_PATH
 
     arquivos = list(Path(RAW_PATH).glob("*.CSV"))
-    RAW_UF_PATH = RAW_UF_PATH/f"raw{uf}"
+    
+    if uf != '*':
+        RAW_UF_PATH = RAW_UF_PATH/f"raw{uf}"
+    else:
+        RAW_UF_PATH = RAW_UF_PATH/"raw_all"
+
     paste = RAW_UF_PATH
     paste.mkdir(parents=True, exist_ok=True)
 
     for arquivo in arquivos:
-        if uf in arquivo.name.lower():
+        if uf in arquivo.name.lower() or uf=="*":
             try: #try para pegar os metadados
                 df_meta_dados = pd.read_csv(
                     arquivo,
@@ -56,11 +61,13 @@ def create_base(uf:str): # Cria um diretório com a uf passada
                 df_dados = df_dados[colunas_metadados + colunas_dados]
                 
                 df_dados.to_parquet(RAW_UF_PATH/(arquivo.stem+".parquet"), engine="pyarrow", index=False)
+                
 
             except Exception as e:
                 print(f"Erro em {arquivo.name}: {e}")
-
+                
+    print(f"Pasta raw{uf} gerada com sucesso!")
 
 
 if __name__ == "__main__":
-    create_base("_ms_") #Passar a UF desejada
+    create_base("_sp_") #Passar a UF desejada ou "*" para passar todas as uf`s
