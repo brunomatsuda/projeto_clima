@@ -68,6 +68,5 @@ def create_base(uf:str): # Cria um diretório com a uf passada
                 
     print(f"Pasta raw{uf} gerada com sucesso!")
 
-
 if __name__ == "__main__":
-    create_base("_sp_") #Passar a UF desejada ou "*" para passar todas as uf`s
+    create_base("_go_") #Passar a UF desejada ou "*" para passar todas as uf`s
