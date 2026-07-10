@@ -1,4 +1,4 @@
-from src.config.path import RAW_DF_PATH, GOLD_PATH
+from src.config.path import RAW_DF_PATH, GOLD_PATH, RAW_UF_PATH
 import pandas as pd
 
 pd.set_option('display.max_columns', None)
@@ -121,14 +121,18 @@ def order_columns(df:pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def export_df(df:pd.DataFrame, archive_name:str) -> None:
+def export_df(df:pd.DataFrame, archive_name:str, uf:str) -> None:
+    uf = uf.replace(uf[0:3],"gold") #trocando 'raw' por 'gold'
+    gold_uf = GOLD_PATH/uf
+    gold_uf.mkdir(parents=True, exist_ok=True)
+
     df.to_csv(
-        GOLD_PATH /f"{archive_name}.csv",
+        gold_uf /f"{archive_name}.csv",
         index=False
     )
 
 
-def data_pipeline(df: pd.DataFrame, archive_name: str) -> pd.DataFrame:
+def data_pipeline(df: pd.DataFrame, archive_name: str, uf:str) -> pd.DataFrame:
     return(df
         .pipe(normalize_column)
         .pipe(normalize_values)
@@ -137,12 +141,14 @@ def data_pipeline(df: pd.DataFrame, archive_name: str) -> pd.DataFrame:
         .pipe(drop_columns)
         .pipe(termal_amplitude_column)
         .pipe(order_columns)
-        .pipe(export_df, archive_name)
+        .pipe(export_df, archive_name, uf)
     )
 
 
 
 if __name__ == "__main__":
-    for arquivo in RAW_DF_PATH.glob("*parquet"):
+    uf = 'raw_df_'
+    RAW_UF_PATH = RAW_UF_PATH/uf
+    for arquivo in RAW_UF_PATH.glob("*parquet"):
         df = pd.read_parquet(arquivo)
-        data_pipeline(df, archive_name=arquivo.stem)
+        data_pipeline(df, archive_name=arquivo.stem, uf=uf)
