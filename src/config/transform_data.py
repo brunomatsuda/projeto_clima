@@ -147,7 +147,7 @@ def data_pipeline(df: pd.DataFrame, archive_name: str, uf:str) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    uf = 'raw_sp_'
+    uf = 'raw_go_'
     RAW_UF_PATH = RAW_UF_PATH/uf
     arquivos_com_erro = []
 
