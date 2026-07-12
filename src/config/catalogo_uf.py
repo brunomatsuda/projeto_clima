@@ -50,7 +50,7 @@ def create_base(uf:str): # Cria um diretório com a uf passada
                     decimal=","
                 )
 
-                df_dados = df_dados.dropna(how='all', axis=1)
+                #df_dados = df_dados.dropna(how='all', axis=1) # Remove a colunas, caso todos os valoers sejam null
 
                 # Inserindo metadados em df_dados
                 for chave, valor in metadados.items():
