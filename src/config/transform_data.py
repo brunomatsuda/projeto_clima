@@ -147,8 +147,20 @@ def data_pipeline(df: pd.DataFrame, archive_name: str, uf:str) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    uf = 'raw_df_'
+    uf = 'raw_sp_'
     RAW_UF_PATH = RAW_UF_PATH/uf
+    arquivos_com_erro = []
+
     for arquivo in RAW_UF_PATH.glob("*parquet"):
-        df = pd.read_parquet(arquivo)
-        data_pipeline(df, archive_name=arquivo.stem, uf=uf)
+        try:
+            df = pd.read_parquet(arquivo)
+            data_pipeline(df, archive_name=arquivo.stem, uf=uf)
+        except KeyError as e:
+            print(f"Erro no arquivo: {arquivo.name} -> coluna eroo: {e}")
+            arquivos_com_erro.append(arquivo.name)
+            continue
+    
+    if len(arquivos_com_erro) >= 1:
+        print(f"\nArquivos com erro: {arquivos_com_erro}")
+    else:
+        print("Todos os arquivos foram gerados com sucesso!")  
