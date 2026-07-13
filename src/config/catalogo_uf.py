@@ -23,7 +23,7 @@ def create_base(uf:str): # Cria um diretório com a uf passada
     paste.mkdir(parents=True, exist_ok=True)
 
     for arquivo in arquivos:
-        if uf in arquivo.name.lower() or uf=="*":
+        if uf in arquivo.name.lower() or uf=="_*_":
             try: #try para pegar os metadados
                 df_meta_dados = pd.read_csv(
                     arquivo,
@@ -69,4 +69,4 @@ def create_base(uf:str): # Cria um diretório com a uf passada
     print(f"Pasta raw{uf} gerada com sucesso!")
 
 if __name__ == "__main__":
-    create_base("_go_") #Passar a UF desejada ou "*" para passar todas as uf`s
+    create_base("_*_") #Passar a UF desejada ou "_*_" para passar todas as uf`s
