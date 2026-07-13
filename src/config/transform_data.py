@@ -1,4 +1,4 @@
-from src.config.path import RAW_DF_PATH, GOLD_PATH, RAW_UF_PATH
+from src.config.path import RAW_DF_PATH, GOLD_PATH, RAW_UF_PATH, DATA_PATH
 import pandas as pd
 
 pd.set_option('display.max_columns', None)
@@ -147,20 +147,23 @@ def data_pipeline(df: pd.DataFrame, archive_name: str, uf:str) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    uf = 'raw_go_'
+    uf = 'raw_*_'
     RAW_UF_PATH = RAW_UF_PATH/uf
     arquivos_com_erro = []
 
-    for arquivo in RAW_UF_PATH.glob("*parquet"):
-        try:
-            df = pd.read_parquet(arquivo)
-            data_pipeline(df, archive_name=arquivo.stem, uf=uf)
-        except KeyError as e:
-            print(f"Erro no arquivo: {arquivo.name} -> coluna eroo: {e}")
-            arquivos_com_erro.append(arquivo.name)
-            continue
-    
-    if len(arquivos_com_erro) >= 1:
-        print(f"\nArquivos com erro: {arquivos_com_erro}")
+    if RAW_UF_PATH.is_dir():
+        for arquivo in RAW_UF_PATH.glob("*parquet"):
+            try:
+                df = pd.read_parquet(arquivo)
+                data_pipeline(df, archive_name=arquivo.stem, uf=uf)
+            except KeyError as e:
+                print(f"Erro no arquivo: {arquivo.name} -> coluna eroo: {e}")
+                arquivos_com_erro.append(arquivo.name)
+                continue
+        
+        if len(arquivos_com_erro) >= 1:
+            print(f"\nArquivos com erro: {arquivos_com_erro}")
+        else:
+            print("Todos os arquivos foram gerados com sucesso!")
     else:
-        print("Todos os arquivos foram gerados com sucesso!")  
+        print("Nome de arquivo não localizado")  
