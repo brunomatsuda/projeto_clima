@@ -1,4 +1,4 @@
-from src.config.path import RAW_DF_PATH, GOLD_PATH, RAW_UF_PATH, DATA_PATH
+from src.config.path import GOLD_PATH, RAW_UF_PATH
 import pandas as pd
 
 pd.set_option('display.max_columns', None)
@@ -130,6 +130,7 @@ def export_df(df:pd.DataFrame, archive_name:str, uf:str) -> None:
         gold_uf /f"{archive_name}.csv",
         index=False
     )
+    print(f"Pasta {archive_name} gerada com sucesso!")
 
 
 def data_pipeline(df: pd.DataFrame, archive_name: str, uf:str) -> pd.DataFrame:
@@ -145,25 +146,23 @@ def data_pipeline(df: pd.DataFrame, archive_name: str, uf:str) -> pd.DataFrame:
     )
 
 
-
-if __name__ == "__main__":
-    uf = 'raw_*_'
-    RAW_UF_PATH = RAW_UF_PATH/uf
+def processar_uf(uf):
+    uf = f"raw_{uf}_"
+    pasta_uf = RAW_UF_PATH / uf
     arquivos_com_erro = []
 
-    if RAW_UF_PATH.is_dir():
-        for arquivo in RAW_UF_PATH.glob("*parquet"):
+    if pasta_uf.is_dir():
+        for arquivo in pasta_uf.glob("*.parquet"):
             try:
                 df = pd.read_parquet(arquivo)
                 data_pipeline(df, archive_name=arquivo.stem, uf=uf)
             except KeyError as e:
-                print(f"Erro no arquivo: {arquivo.name} -> coluna eroo: {e}")
+                print(f"Erro no arquivo: {arquivo.name} -> coluna erro: {e}")
                 arquivos_com_erro.append(arquivo.name)
-                continue
-        
-        if len(arquivos_com_erro) >= 1:
+
+        if arquivos_com_erro:
             print(f"\nArquivos com erro: {arquivos_com_erro}")
         else:
             print("Todos os arquivos foram gerados com sucesso!")
     else:
-        print("Nome de arquivo não localizado")  
+        print("Nome de arquivo não localizado")
