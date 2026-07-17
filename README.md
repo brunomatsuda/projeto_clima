@@ -1,4 +1,4 @@
-# 🌦️ Projeto Clima DF — Pipeline de Dados Meteorológicos (INMET)
+# 🌦️ Projeto Clima — Pipeline de Dados Meteorológicos (INMET)
 
 Pipeline de engenharia de dados que processa dados históricos meteorológicos do **INMET** (Instituto Nacional de Meteorologia), transformando arquivos CSV brutos em datasets analíticos prontos para consumo, seguindo uma arquitetura inspirada no modelo **Medallion (Raw → Processed → Gold)**.
 
@@ -90,11 +90,9 @@ O pipeline calcula a **amplitude térmica mensal** (diferença entre a maior tem
 ---
 
 ## 🚧 Próximos passos
-- [ ] Escrever testes unitários (pytest) para as funções de transformação
-- [ ] Adicionar checagens de qualidade de dados (ex: Great Expectations)
 - [ ] Orquestrar o pipeline com Airflow ou Dagster
 - [ ] Containerizar a aplicação com Docker
-- [ ] Publicar a camada Gold em um data warehouse (BigQuery/DuckDB/Postgres) para consumo em dashboards
+- [ ] Criar dashboards
 
 ---
 
