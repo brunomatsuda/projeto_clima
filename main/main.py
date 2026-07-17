@@ -17,4 +17,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main() #Passar a UF desejada ou "_*_" para passar todas as uf`s
+    main() #Passar a UF desejada ou "main" para passar todas as uf`s / python3 -m main.main --uf go
