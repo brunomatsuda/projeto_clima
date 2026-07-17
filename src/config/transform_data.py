@@ -130,7 +130,7 @@ def export_df(df:pd.DataFrame, archive_name:str, uf:str) -> None:
         gold_uf /f"{archive_name}.csv",
         index=False
     )
-    print(f"Pasta {archive_name} gerada com sucesso!")
+    print(f"Arquivo {archive_name} gerada com sucesso!")
 
 
 def data_pipeline(df: pd.DataFrame, archive_name: str, uf:str) -> pd.DataFrame:
@@ -147,7 +147,7 @@ def data_pipeline(df: pd.DataFrame, archive_name: str, uf:str) -> pd.DataFrame:
 
 
 def processar_uf(uf):
-    uf = f"raw_{uf}_"
+    uf = f"raw__{uf}__"
     pasta_uf = RAW_UF_PATH / uf
     arquivos_com_erro = []
 
