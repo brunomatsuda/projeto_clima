@@ -1,17 +1,15 @@
 # dags/clima_df_pipeline.py
 from airflow.decorators import dag, task
 from src.config.catalogo_uf import create_base
+from airflow.models.param import Param
 from datetime import datetime
 import os
 import sys
-# Agora o seu import vai funcionar
-
 
 from src.config.catalogo_uf import create_base
 from src.config.transform_data import processar_uf
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
-
 
 
 @dag(
@@ -20,6 +18,14 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
     start_date=datetime(2025, 1, 1),
     catchup=False,
     tags=["clima", "inmet"],
+     params={
+        "uf": Param(
+            default="df",
+            type="string",
+            title="UF a processar",
+            description="Sigla da UF (ex: df, go, sp) ou 'all' para todas.",
+        )
+    },
 )
 def clima_df_pipeline():
 
