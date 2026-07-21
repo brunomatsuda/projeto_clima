@@ -100,8 +100,8 @@ projeto_clima/
 ### Opção 1 — Rodando o pipeline manualmente (sem Airflow)
 1. Clone o repositório e crie um ambiente virtual:
    ```bash
-   git clone https://github.com/<seu-usuario>/projeto_clima-df.git
-   cd projeto_clima-df
+   git clone https://github.com/brunomatsuda/projeto_clima.git
+   cd projeto_clima
    python -m venv .venv
    source .venv/bin/activate  # Windows: .venv\Scripts\activate
    pip install -r requirements.txt
