@@ -1,9 +1,6 @@
 # DRAWIO
 *.drawio
 
-# TXT
-*.txt
-
 # Ignora todo o conteúdo de gold mas mantém a pasta
 data/gold/*
 !data/gold/.gitkeep
