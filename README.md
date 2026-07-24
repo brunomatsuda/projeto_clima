@@ -107,7 +107,7 @@ projeto_clima/
    pip install -r requirements.txt
    ```
 
-2. Baixe os dados históricos do [INMET](https://portal.inmet.gov.br/dadoshistoricos) e coloque os arquivos `.CSV` em `data/raw/` (no repositório você irá notar que a pasta `raw/` já contém os arquivos de 2025).
+2. Baixe os dados históricos do [INMET](https://portal.inmet.gov.br/dadoshistoricos) e coloque os arquivos `.CSV` em `data/raw/` (no repositório você irá notar que a pasta `raw/` já contém os arquivos de 2026(janeira - junho)).
 
 3. Rode o pipeline para uma UF específica:
    ```bash
