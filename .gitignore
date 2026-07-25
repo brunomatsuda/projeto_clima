@@ -1,6 +1,10 @@
 # DRAWIO
 *.drawio
 
+# Arquivo full_join.ipynb e pasta kaggle
+/sql/full_join.ipynb
+/data/data_kaggle
+
 # Ignora todo o conteúdo de gold mas mantém a pasta
 data/gold/*
 !data/gold/.gitkeep
