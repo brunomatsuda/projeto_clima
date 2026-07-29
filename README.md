@@ -139,9 +139,14 @@ O pipeline calcula a **amplitude térmica mensal** (diferença entre a maior tem
 | Out | 13.4            | 33.2            | 19.8            |
 
 ---
+## 🇰 Kaggle
+
+Caso queira um arquivo com todas as 27 uf`s compiladas, basta acessar o site do [kaggle](https://www.kaggle.com/datasets/brunommm/dados-climticos-inmet-2026-tratados)
+
 
 ## 👤 Autor
 
 **[Bruno Matsuda]**
 
 [LinkedIn](https://www.linkedin.com/in/bruno-matsuda-904747262/) • [GitHub](https://github.com/brunomatsuda)
+
