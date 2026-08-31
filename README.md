@@ -1,4 +1,4 @@
-# 🌦️ Projeto Clima — Pipeline de Dados Meteorológicos (INMET)
+# 🌦️ Pipeline de Dados Meteorológicos (INMET)
 
 Pipeline de engenharia de dados que processa dados históricos meteorológicos do **INMET** (Instituto Nacional de Meteorologia), transformando arquivos CSV brutos em datasets analíticos prontos para consumo, seguindo uma arquitetura inspirada no modelo **Medallion (Raw → Processed → Gold)** e orquestrado com **Apache Airflow**.
 
